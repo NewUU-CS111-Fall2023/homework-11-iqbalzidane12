@@ -4,5 +4,3 @@
  * Name:
  */
 
-class Problem3 {
-};
