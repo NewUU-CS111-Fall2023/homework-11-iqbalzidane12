@@ -55,7 +55,7 @@ void unaryAddition(std::vector<int>& tape) {
     }
 }
 
-int task_2() {
+int task_2 () {
     std::vector<int> tape = {1, 1, 1, 0, 1, 1, 1, 1};
 
     unaryAddition(tape);
