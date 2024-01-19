@@ -49,7 +49,7 @@ void multiplyNumbers(std::vector<char>& tape) {
     }
 }
 
-int task_4() {
+int task_4 () {
     std::vector<char> tape = {'0', '1', '1', '1', 'c', '1', '1', '1', '0'};
 
     multiplyNumbers(tape);

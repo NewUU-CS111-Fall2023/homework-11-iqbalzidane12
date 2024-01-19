@@ -52,7 +52,7 @@ std::string generateRandom3SATFormula(int numVariables, int numClauses) {
     return formula;
 }
 
-int task_10() {
+int task_10 () {
     int numVariables = 3;
     int numClauses = 2;
     std::string random3SATFormula = generateRandom3SATFormula(numVariables, numClauses);

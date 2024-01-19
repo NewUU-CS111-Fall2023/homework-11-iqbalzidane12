@@ -76,7 +76,7 @@ void compareNumbers(std::vector<char>& tape) {
     }
 }
 
-int task_3 () {
+int task_3  () {
     std::vector<char> tape = {'0', '1', '1', '1', 'c', '1', '1', '1', '1', '0'};
     
     compareNumbers(tape);
