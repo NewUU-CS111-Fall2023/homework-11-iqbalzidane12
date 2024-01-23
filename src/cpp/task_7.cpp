@@ -4,40 +4,24 @@
  * Name:Muxtorov Abdulaziz
  */
 #include <iostream>
-#include <vector>
-#include <unordered_map>
 
-int minRabbits(std::vector<int>& answers) {
-    std::unordered_map<int, int> countMap;
-
-    // Count the number of rabbits for each answer
-    for (int answer : answers) {
-        countMap[answer]++;
-    }
-
-    int minRabbits = 0;
-
-    // Calculate the minimum number of rabbits
-    for (const auto& entry : countMap) {
-        int answer = entry.first;
-        int count = entry.second;
-        minRabbits += (count + answer - 1) / (answer + 1) * (answer + 1);
-    }
-
-    return minRabbits;
+int eulerTotientFunction(int a, int b) {
+    return (a - 1) * (b - 1);
 }
 
-int task_7() {
-    // Sample input: answers = [1, 1, 2]
-    std::vector<int> answers = {1, 1, 2};
+int task_ 7() {
+    int a, b;
 
-    // Calculate the minimum number of rabbits
-    int result = minRabbits(answers);
+    std::cout << "Enter the first prime number (a): ";
+    std::cin >> a;
 
-    // Print the result
-    std::cout << "Minimum number of rabbits: " << result << std::endl;
+    std::cout << "Enter the second prime number (b): ";
+    std::cin >> b;
+
+
+    int result = eulerTotientFunction(a, b);
+
+    std::cout << "Euler's totient function for n = " << a * b << " is: " << result << std::endl;
 
     return 0;
 }
-
-

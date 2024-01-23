@@ -1,65 +1,30 @@
 /*
  * Author:
- * Date:
+ * Date:Abdulaziz
  * Name:
  */
+class task_4 {
+private:
+    static const int MOD = 1337;
 
-#include <iostream>
-#include <vector>
+    int powMod(int a, int b) {
+        if (b == 0) return 1;
+        a = a % MOD;
+        int res = a;
+        for (int i = 1; i < b; i++)
+            res = (res * a) % MOD;
+        return res;
+    }
 
-enum State {
-    q0, q1, q2, q3, q4, q5, q6, q7, q8, q9, HALT
+public:
+    int superPow(int a, vector<int>& b) {
+        a = a % MOD;
+        if (a == 0) return a;
+        if (b.empty()) return 1;
+        int res = powMod(a, b[0]);
+        for (int i = 1; i < b.size(); i++)
+            res = (powMod(res, 10) * powMod(a, b[i])) % MOD;
+        return res;
+    }
 };
 
-void multiplyNumbers(std::vector<char>& tape) {
-    State currentState = q0;
-    int head = 0;
-
-    while (currentState != HALT) {
-        switch (currentState) {
-            case q0:
-                while (head < tape.size() && tape[head] != 'c') {
-                    head++;
-                }
-                currentState = q1;
-                break;
-
-            case q1:
-                if (head < tape.size() && tape[head] == 'c') {
-                    tape[head] = 'C';
-                    head++;
-                    currentState = q2;
-                }
-                break;
-
-            case q2:
-                while (head < tape.size() && tape[head] != '0') {
-                    head++;
-                }
-                currentState = q3;
-                break;
-
-            case q3:
-                while (head < tape.size()) {
-                    head++;
-                }
-                currentState = HALT;
-                break;
-        }
-    }
-}
-
-int task_4 () {
-    std::vector<char> tape = {'0', '1', '1', '1', 'c', '1', '1', '1', '0'};
-
-    multiplyNumbers(tape);
-
-    for (char symbol : tape) {
-        if (symbol != '0') {
-            std::cout << symbol << " ";
-        }
-    }
-    std::cout << std::endl;
-
-    return 0;
-}

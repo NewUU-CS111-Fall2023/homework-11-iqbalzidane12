@@ -4,47 +4,57 @@
  * Name:
  */
 #include <iostream>
-#include <vector>
+#include <cmath>
 
-bool canPartition(const std::vector<int>& nums) {
-    int sum = 0;
 
-    for (int num : nums) {
-        sum += num;
+int eulerTotientFunction(int p, int q) {
+    return (p - 1) * (q - 1);
+}
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
     }
-    if (sum % 2 != 0) {
-        return false;
-    }
+    return a;
+}
 
-    int targetSum = sum / 2;
-    int n = nums.size();
-    std::vector<std::vector<bool>> dp(n + 1, std::vector<bool>(targetSum + 1, false));
-    for (int i = 0; i <= n; ++i) {
-        dp[i][0] = true;
-    } // Building the dp table
-    for (int i = 1; i <= n; ++i) {
-        for (int j = 1; j <= targetSum; ++j) {
-            dp[i][j] = dp[i - 1][j];
-            if (j >= nums[i - 1]) {
-                dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
-            }
+
+int modInverse(int a, int m) {
+    for (int x = 1; x < m; x++) {
+        if ((a * x) % m == 1) {
+            return x;
         }
     }
-
-    return dp[n][targetSum];
+    return -1;
 }
 
 int task_8 () {
-    // Sample input: nums = [1, 5, 11, 5]
-    std::vector<int> nums = {1, 5, 11, 5};
+    int p, q;
 
-    // Check if it's possible to partition the array into two equal sum subsets
-    bool result = canPartition(nums);
-    if (result) {
-        std::cout << "True" << std::endl;
-    } else {
-        std::cout << "False" << std::endl;
+    std::cout << "Enter the first prime number (p): ";
+    std::cin >> p;
+
+    std::cout << "Enter the second prime number (q): ";
+    std::cin >> q;
+
+
+    int n = p * q;
+
+
+    int phiN = eulerTotientFunction(p, q);
+
+
+    int e = 2;
+    while (e < phiN && gcd(e, phiN) != 1) {
+        e++;
     }
+
+    int d = modInverse(e, phiN);
+
+    std::cout << "Public key (e, n): (" << e << ", " << n << ")" << std::endl;
+    std::cout << "Private key (d, n): (" << d << ", " << n << ")" << std::endl;
 
     return 0;
 }

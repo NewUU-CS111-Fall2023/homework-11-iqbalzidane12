@@ -4,39 +4,40 @@
  * Name:
  */
 //Muxtorov Abdulaziz
-
 #include <iostream>
-#include <vector>
+#include <string>
 
-bool hasZeroSumTriplet(const std::vector<int>& nums) {
-    int n = nums.size();
+using namespace std;
 
-    for (int i = 0; i < n - 2; ++i) {
-        for (int j = i + 1; j < n - 1; ++j) {
-            for (int k = j + 1; k < n; ++k) {
-                if (nums[i] + nums[j] + nums[k] == 0) {
-                    return true;
-                }
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        char d[128]{};
+        d[' '] = ' ';
+        char i = 'a';
+
+        for (char& c : key) {
+            if (!d[c]) {
+                d[c] = i++;
             }
         }
-    }
 
-    return false;
-}
+        for (char& c : message) {
+            c = d[c];
+        }
+
+        return message;
+    }
+};
 
 int task_5 () {
-    // Sample input: -5 -17 7 -4 3 -2 4
-    std::vector<int> nums = {-5, -17, 7, -4, 3, -2, 4};
+    Solution solution;
 
-    // Check if the set contains a distinct triplet whose sum is zero
-    bool result = hasZeroSumTriplet(nums);
+    string key = "eljuxhpwnyrdgtqkviszcfmabo";
+    string message = "zwx hnfx lqantp mnoeius ycgk vcnjrdb";
 
-    // Print the result
-    if (result) {
-        std::cout << "True" << std::endl;
-    } else {
-        std::cout << "False" << std::endl;
-    }
+    string decodedMessage = solution.decodeMessage(key, message);
+    cout << "Decoded Message: " << decodedMessage << endl;
 
     return 0;
 }

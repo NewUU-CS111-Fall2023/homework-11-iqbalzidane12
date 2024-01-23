@@ -3,87 +3,31 @@
  * Date:Muxtorov Abdulaziz
  * Name:
  */
-#include <iostream>
-#include <vector>
-
-// Definition for singly-linked list.
-struct ListNode {
-    int val;
-    ListNode* next;
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-ListNode* mergeNodes(ListNode* start, ListNode* end) {
-    int sum = 0;
-    ListNode* current = start;
-    
-    while (current != end) {
-        sum += current->val;
-        ListNode* temp = current;
-        current = current->next;
-        delete temp;
+class task_1 {
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        const int sum = accumulate(nums.begin(), nums.end(), 0);
+        if (sum < abs(target) || (sum + target) & 1)
+            return 0;
+        return knapsack(nums, (sum + target) / 2);
     }
-    
-    return new ListNode(sum);
-}
 
-ListNode* mergeLinkedList(ListNode* head) {
-    ListNode dummy(0); // Dummy node to simplify edge cases
-    dummy.next = head;
-    ListNode* current = &dummy;
+private:
+    int knapsack(const vector<int>& nums, int target) {
+        const int n = nums.size();
+        // dp[i][j] := the number of ways to sum to j by nums[0..i)
+        vector<vector<int>> dp(n + 1, vector<int>(target + 1));
+        dp[0][0] = 1;
 
-    while (current->next) {
-        if (current->next->val == 0) {
-            ListNode* start = current->next;
-            ListNode* end = start->next;
-
-            while (end && end->val != 0) {
-                end = end->next;
-            }
-
-            current->next = mergeNodes(start, end);
-            current->next->next = end;
+        for (int i = 1; i <= n; ++i) {
+            const int num = nums[i - 1];
+            for (int j = 0; j <= target; ++j)
+                if (j < num)
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j] + dp[i - 1][j - num];
         }
 
-        current = current->next;
+        return dp[n][target];
     }
-
-    return dummy.next;
-}
-
-void printLinkedList(ListNode* head) {
-    while (head) {
-        std::cout << head->val << " ";
-        head = head->next;
-    }
-    std::cout << std::endl;
-}
-
-int task_1 () {
-    // Sample input: [0, 3, 1, 0, 4, 5, 2, 0]
-    ListNode* head = new ListNode(0);
-    head->next = new ListNode(3);
-    head->next->next = new ListNode(1);
-    head->next->next->next = new ListNode(0);
-    head->next->next->next->next = new ListNode(4);
-    head->next->next->next->next->next = new ListNode(5);
-    head->next->next->next->next->next->next = new ListNode(2);
-    head->next->next->next->next->next->next->next = new ListNode(0);
-
-    std::cout << "Original Linked List: ";
-    printLinkedList(head);
-
-    ListNode* modifiedList = mergeLinkedList(head);
-
-    std::cout << "Modified Linked List: ";
-    printLinkedList(modifiedList);
-
-    // Clean up memory
-    while (modifiedList) {
-        ListNode* temp = modifiedList;
-        modifiedList = modifiedList->next;
-        delete temp;
-    }
-
-    return 0;
-}
+};

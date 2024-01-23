@@ -1,70 +1,36 @@
 /*
  * Author:
- * Date:
+ * Date:abdulaziz
  * Name:
  */
 
-#include <iostream>
 #include <vector>
 
-enum State {
-    q0, q1, q2, q3, HALT
-};
-
-void unaryAddition(std::vector<int>& tape) {
-    State currentState = q0;
-    int head = 0;
-
-    while (currentState != HALT) {
-        switch (currentState) {
-            case q0:
-                // Move to the first '0'
-                while (head < tape.size() && tape[head] != 0) {
-                    head++;
-                }
-                currentState = q1;
-                break;
-
-            case q1:
-                // Addition loop
-                while (head < tape.size() && tape[head] == 0) {
-                    tape[head] = 1;
-                    head--;
-                    while (head >= 0 && tape[head] != 0) {
-                        head--;
-                    }
-                    head++;
-                }
-                currentState = (head < tape.size() && tape[head] == 0) ? q1 : q2;
-                break;
-
-            case q2:
-                tape[head] = 1;
-                head++;
-                currentState = q3;
-                break;
-
-            case q3:
-                // Shift to the right
-                while (head < tape.size() && tape[head] != 0) {
-                    head++;
-                }
-                currentState = (head < tape.size()) ? q1 : HALT;
-                break;
+class task_2 {
+public:
+    bool canPartition(std::vector<int>& nums) {
+        int total_sum = 0;
+        for (int num : nums) {
+            total_sum += num;
         }
+
+        if (total_sum % 2 != 0) {
+            return false;
+        }
+
+        int subset_sum = total_sum / 2;
+        std::vector<bool> dp(subset_sum + 1, false);
+        dp[0] = true;
+
+        for (int num : nums) {
+            for (int _sum = subset_sum; _sum >= num; --_sum) {
+                dp[_sum] = dp[_sum] || dp[_sum - num];
+                if (dp[subset_sum]) {
+                    return dp[subset_sum];
+                }
+            }
+        }
+
+        return dp[subset_sum];
     }
-}
-
-int task_2 () {
-    std::vector<int> tape = {1, 1, 1, 0, 1, 1, 1, 1};
-
-    unaryAddition(tape);
-
-    std::cout << "Result: ";
-    for (int bit : tape) {
-        std::cout << bit << " ";
-    }
-    std::cout << std::endl;
-
-    return 0;
-}
+};
